@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# shellcheck source=common
+. "${0%/*}/../common"
+task_description='Upgrade Homebrew packages'
+
+task_start
+
+# shellcheck disable=SC2119
+$DRYRUN brew upgrade || task_fail
+
+task_end

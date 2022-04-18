@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# shellcheck source=common
+. "${0%/*}/../common"
+task_description='Oh My Zsh upgrade'
+
+task_start
+
+test -e "${HOME}/.oh-my-zsh/tools/upgrade.sh" || task_skip
+# shellcheck disable=SC2119
+$DRYRUN "${HOME}/.oh-my-zsh/tools/upgrade.sh" || task_fail
+
+task_end

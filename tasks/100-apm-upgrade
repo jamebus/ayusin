@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# shellcheck source=common
+. "${0%/*}/../common"
+task_description='Upgrade Atom packages'
+
+task_start
+
+which -s apm || task_skip
+# shellcheck disable=SC2119
+$DRYRUN apm upgrade -c false || task_fail
+
+task_end

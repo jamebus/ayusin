@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# shellcheck source=common
+. "${0%/*}/../common"
+task_description='Upgrade macOS applications'
+
+task_start
+
+# shellcheck disable=SC2119
+$DRYRUN mas upgrade || task_fail
+
+task_end
