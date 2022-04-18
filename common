@@ -1,0 +1,29 @@
+# shellcheck shell=sh
+
+set -u
+
+: "${task_description:=Unknown}"
+DRYRUN=''
+# shellcheck disable=SC2154
+test "${opt_verbose:-0}" -eq 1 && set -x
+# shellcheck disable=SC2154,SC2034
+test "${opt_dryrun:-0}"  -eq 1 && DRYRUN='echo ⚪️'
+
+task_start() {
+	echo "🟡 Starting: $task_description"
+}
+
+task_skip() {
+	echo "🟠 Skipping: $task_description"
+	exit 0
+}
+
+task_end() {
+	echo "🟢 Completed: $task_description"
+	exit 0
+}
+
+task_fail() {
+	echo "🔴 Failure: $task_description"
+	exit "${1:-0}"
+}

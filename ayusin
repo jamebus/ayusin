@@ -1,5 +1,63 @@
 #!/bin/sh
 
-set -exu
+set -u
 
-brew upgrade
+version='0.2.0'
+me="${0##*/}"
+tasks_dir="${0%/*}/../share/ayusin/tasks.d"
+user_tasks_dir="${HOME}/.ayusin/tasks.d"
+common_file="${0%/*}/../share/ayusin/common"
+rc=0
+
+# shellcheck disable=SC2120
+usage() {
+	# shellcheck disable=SC3043
+	local rc
+	rc=${1:-0}
+	echo "Usage: $me [options]"
+	echo
+	echo '       --version        Show version'
+	echo '       -v, --verbose    Show commands as they are executed'
+	echo '       -n, --dry-run    Show commands that would have been executed'
+	echo '       -c, --common     Show path to common file'
+	echo '       -h, --help       Show this help'
+	exit "$rc"
+}
+
+while [ $# -ne 0 ]; do
+	case $1 in
+		--version)
+			echo "$version"
+			exit
+			;;
+		-v|--verbose)
+			opt_verbose=1
+			shift
+			;;
+		-n|--dry-run)
+			opt_dryrun=1
+			shift
+			;;
+		-c|--common)
+			echo "$common_file"
+			exit
+			;;
+		-h|--help)
+			# shellcheck disable=SC2119
+			usage
+			;;
+		*)
+			echo "Error: Unknown option: $1" 1>&2
+			exit 1
+			;;
+	esac
+done
+
+export opt_verbose opt_dryrun
+
+run-parts --exit-on-error "$tasks_dir" || rc=$((rc + 1))
+if [ -d "$user_tasks_dir" ]; then
+	run-parts --exit-on-error "$user_tasks_dir" || rc=$((rc + 1))
+fi
+
+exit "$rc"
