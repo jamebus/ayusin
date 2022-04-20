@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# shellcheck source=common
+. "${0%/*}/../common"
+task_description='System update check'
+
+task_start
+
+# shellcheck disable=SC2119
+$DRYRUN softwareupdate -l || task_fail
+
+task_end
