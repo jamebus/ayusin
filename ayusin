@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -u
+set -eu
 
 version='0.2.1'
 me="${0##*/}"

@@ -1,6 +1,6 @@
 # shellcheck shell=sh
 
-set -u
+set -eu
 
 : "${task_description:=Unknown}"
 DRYRUN=''
