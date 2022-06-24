@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# shellcheck source=common
+# shellcheck source=../common
 . "${0%/*}/../common"
 task_description='Upgrade Atom packages'
 
