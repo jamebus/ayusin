@@ -9,6 +9,6 @@ task_start
 test -d "${HOME}/.oh-my-zsh/custom/themes/powerlevel10k" || task_skip
 # shellcheck disable=SC2119
 $DRYRUN git -C "${HOME}/.oh-my-zsh/custom/themes/powerlevel10k" \
-           pull --autostash --rebase --stat || task_fail
+            pull --autostash --rebase --stat || task_fail
 
 task_end
