@@ -5,7 +5,8 @@ set -eu
 version='0.2.2'
 me="${0##*/}"
 tasks_dir="${0%/*}/../share/ayusin/tasks.d"
-user_tasks_dir="${HOME}/.ayusin/tasks.d"
+user_dir="${HOME}/.ayusin"
+user_tasks_dir="${user_dir}/tasks.d"
 common_file="${0%/*}/../share/ayusin/common"
 rc=0
 
@@ -53,7 +54,7 @@ while [ $# -ne 0 ]; do
 	esac
 done
 
-export opt_verbose opt_dryrun
+export opt_verbose opt_dryrun user_dir
 
 run-parts --exit-on-error "$tasks_dir" || rc=$((rc + 1))
 if [ -d "$user_tasks_dir" ]; then

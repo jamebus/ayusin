@@ -9,6 +9,9 @@ test "${opt_verbose:-0}" -eq 1 && set -x
 # shellcheck disable=SC2154,SC2034
 test "${opt_dryrun:-0}"  -eq 1 && DRYRUN='echo ⚪️'
 
+lastrun_dir="${user_dir:?}/lastrun"
+task_lastrun_file="${lastrun_dir}/$(echo "$0" | tr -cd '[:alnum:]').stamp"
+
 task_start() {
 	echo "🟡 Starting: $task_description"
 }
@@ -26,4 +29,37 @@ task_end() {
 task_fail() {
 	echo "🔴 Failure: $task_description"
 	exit "${1:-0}"
+}
+
+task_lastrun_days() {
+	# shellcheck disable=SC3043
+	local tmpfile rc
+	rc=0
+
+	if ! echo "$1" | grep -E '^[0-9]+$' >/dev/null; then
+		echo "lastrun_days: Invalid argument \"$1\"" 1>&2
+		exit 1
+	fi
+
+	test -f "$task_lastrun_file" || return 0
+
+	tmpfile=$(mktemp)
+	touch -t "$(date -v "-${1}d" '+%Y%m%d%H%M')" "$tmpfile"
+	test "$tmpfile" -nt "$task_lastrun_file" || rc=1
+	rm -f "$tmpfile"
+
+	return "$rc"
+}
+
+create_lastrun_dir() {
+	test "${opt_dryrun:-0}" -eq 1 && return
+
+	test -d "$lastrun_dir" || mkdir -p "$lastrun_dir"
+}
+
+task_update_lastrun() {
+	test "${opt_dryrun:-0}" -eq 1 && return
+
+	create_lastrun_dir
+	touch "$task_lastrun_file"
 }
