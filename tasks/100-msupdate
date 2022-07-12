@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# shellcheck source=../common
+. "${0%/*}/../common"
+task_description='Update Microsoft applications'
+
+task_start
+
+test -x '/Library/Application Support/Microsoft/MAU2.0/Microsoft AutoUpdate.app/Contents/MacOS/msupdate' || task_skip
+# shellcheck disable=SC2119
+$DRYRUN '/Library/Application Support/Microsoft/MAU2.0/Microsoft AutoUpdate.app/Contents/MacOS/msupdate' --install || task_fail
+
+task_end
