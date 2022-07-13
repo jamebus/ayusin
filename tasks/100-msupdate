@@ -7,7 +7,8 @@ task_description='Update Microsoft applications'
 task_start
 
 test -x '/Library/Application Support/Microsoft/MAU2.0/Microsoft AutoUpdate.app/Contents/MacOS/msupdate' || task_skip
+$DRYRUN '/Library/Application Support/Microsoft/MAU2.0/Microsoft AutoUpdate.app/Contents/MacOS/msupdate' --install || rc=$?
 # shellcheck disable=SC2119
-$DRYRUN '/Library/Application Support/Microsoft/MAU2.0/Microsoft AutoUpdate.app/Contents/MacOS/msupdate' --install || task_fail
+test ${rc:-0} -gt 1 && task_fail
 
 task_end
