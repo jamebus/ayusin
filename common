@@ -31,6 +31,10 @@ task_fail() {
 	exit "${1:-0}"
 }
 
+info() {
+	echo "💡 ${1:-}"
+}
+
 task_lastrun_days() {
 	# shellcheck disable=SC3043
 	local tmpfile rc
