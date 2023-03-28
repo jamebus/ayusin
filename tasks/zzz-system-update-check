@@ -9,4 +9,9 @@ task_start
 # shellcheck disable=SC2119
 $DRYRUN softwareupdate -l || task_fail
 
+if [ -z "$DRYRUN" ]; then
+	echo
+	info 'Run "softwareupdate -d -a" to pre-download system updates'
+fi
+
 task_end
