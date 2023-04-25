@@ -4,12 +4,11 @@ set -eu
 
 : "${task_description:=Unknown}"
 DRYRUN=''
-# shellcheck disable=SC2154
-test "${opt_verbose:-0}" -eq 1 && set -x
-# shellcheck disable=SC2154,SC2034
-test "${opt_dryrun:-0}"  -eq 1 && DRYRUN='echo ⚪️'
+test "${AYUSIN_VERBOSE:-0}" -eq 1 && set -x
+# shellcheck disable=SC2034
+test "${AYUSIN_DRYRUN:-0}"  -eq 1 && DRYRUN='echo ⚪️'
 
-lastrun_dir="${user_dir:?}/lastrun"
+lastrun_dir="${AYUSIN_USER_DIR}/lastrun"
 task_lastrun_file="${lastrun_dir}/$(echo "$0" | tr -cd '[:alnum:]').stamp"
 
 task_start() {
@@ -56,13 +55,13 @@ task_lastrun_days() {
 }
 
 create_lastrun_dir() {
-	test "${opt_dryrun:-0}" -eq 1 && return
+	test "${AYUSIN_DRYRUN:-0}" -eq 1 && return 0
 
 	test -d "$lastrun_dir" || mkdir -p "$lastrun_dir"
 }
 
 task_update_lastrun() {
-	test "${opt_dryrun:-0}" -eq 1 && return
+	test "${AYUSIN_DRYRUN:-0}" -eq 1 && return 0
 
 	create_lastrun_dir
 	touch "$task_lastrun_file"
