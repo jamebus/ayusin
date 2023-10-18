@@ -11,6 +11,6 @@ install:
 	test -d "${prefix}/bin" || install -d -m ${dirmode} "${prefix}/bin"
 	install -m ${filemode}   common "${prefix}/share/ayusin"
 	install -m ${binmode}    tasks/* "${prefix}/share/ayusin/tasks.d"
-	install -m ${binmode}    ayusin "${prefix}/bin"
+	install -m ${binmode}    ayusin ayusin-task "${prefix}/bin"
 
 .PHONY: all install

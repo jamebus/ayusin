@@ -5,6 +5,6 @@ insert_final_newline = true
 trim_trailing_whitespace = true
 indent_style = space
 
-[{Makefile,ayusin,common,tasks/*}]
+[{Makefile,ayusin,ayusin-task,common,tasks/*}]
 indent_style = tab
 indent_size = 4

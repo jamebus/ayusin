@@ -1,0 +1,30 @@
+#!/bin/sh
+
+set -eu
+
+tasks_dir=$(ayusin --tasks-dir)
+user_dir=$(ayusin --user-dir)
+user_tasks_dir=$(ayusin --user-tasks-dir)
+
+AYUSIN=1
+AYUSIN_USER_DIR="$user_dir"
+AYUSIN_ME="${0##*/}"
+export AYUSIN AYUSIN_USER_DIR AYUSIN_ME
+
+if [ -x "$1" ]; then
+	echo "🎬 $1"
+	exec "$@"
+elif [ -x "${user_tasks_dir}/$1" ]; then
+	cmd="$1"
+	shift
+	echo "🎬 $cmd"
+	exec "${user_tasks_dir}/$cmd" "$@"
+elif [ -x "${tasks_dir}/$1" ]; then
+	cmd="$1"
+	shift
+	echo "🎬 $cmd"
+	exec "${tasks_dir}/$cmd" "$@"
+fi
+
+echo "❗️ Task not found" 1>&2
+exit 1
