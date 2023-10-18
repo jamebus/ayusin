@@ -17,11 +17,14 @@ usage() {
 	rc=${1:-0}
 	echo "Usage: $me [options]"
 	echo
-	echo '       --version        Show version'
-	echo '       -v, --verbose    Show commands as they are executed'
-	echo '       -n, --dry-run    Show commands that would have been executed'
-	echo '       -c, --common     Show path to common file'
-	echo '       -h, --help       Show this help'
+	echo '       --version           Show version'
+	echo '       -v, --verbose       Show commands as they are executed'
+	echo '       -n, --dry-run       Show commands that would have been executed'
+	echo '       -c, --common        Show path to common file'
+	echo '       --tasks-dir         Show path to tasks directory'
+	echo '       --user-dir          Show path to user directory'
+	echo '       --user-tasks-dir    Show path to user tasks directory'
+	echo '       -h, --help          Show this help'
 	exit "$rc"
 }
 
@@ -41,6 +44,18 @@ while [ $# -ne 0 ]; do
 			;;
 		-c|--common)
 			echo "$common_file"
+			exit
+			;;
+		--tasks-dir)
+			echo "$tasks_dir"
+			exit
+			;;
+		--user-dir)
+			echo "$user_dir"
+			exit
+			;;
+		--user-tasks-dir)
+			echo "$user_tasks_dir"
 			exit
 			;;
 		-h|--help)
