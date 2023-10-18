@@ -54,11 +54,12 @@ while [ $# -ne 0 ]; do
 	esac
 done
 
+AYUSIN=1
 AYUSIN_VERBOSE="${opt_verbose:-}"
 AYUSIN_DRYRUN="${opt_dryrun:-}"
 AYUSIN_USER_DIR="$user_dir"
 AYUSIN_ME="$me"
-export AYUSIN_VERBOSE AYUSIN_DRYRUN AYUSIN_USER_DIR AYUSIN_ME
+export AYUSIN AYUSIN_VERBOSE AYUSIN_DRYRUN AYUSIN_USER_DIR AYUSIN_ME
 
 run-parts --exit-on-error "$tasks_dir" || rc=$((rc + 1))
 if [ -d "$user_tasks_dir" ]; then
