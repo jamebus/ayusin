@@ -11,6 +11,11 @@ AYUSIN_USER_DIR="$user_dir"
 AYUSIN_ME="${0##*/}"
 export AYUSIN AYUSIN_USER_DIR AYUSIN_ME
 
+if [ -z "${1:-}" ]; then
+	echo "❗️ Please specify the task to run" 1>&2
+	exit 1
+fi
+
 if [ -x "$1" ]; then
 	echo "🎬 $1"
 	exec "$@"
