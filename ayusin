@@ -28,6 +28,17 @@ usage() {
 	exit "$rc"
 }
 
+inhibit_sleep() {
+	test -n "${1:-}"           || return 1
+	command -v "$1" >/dev/null || exit 1
+
+	if command -v caffeinate >/dev/null; then
+		caffeinate -i "$@"
+	else
+		"$@"
+	fi
+}
+
 while [ $# -ne 0 ]; do
 	case $1 in
 		--version)
@@ -76,9 +87,9 @@ AYUSIN_USER_DIR="$user_dir"
 AYUSIN_ME="$me"
 export AYUSIN AYUSIN_VERBOSE AYUSIN_DRYRUN AYUSIN_USER_DIR AYUSIN_ME
 
-run-parts --exit-on-error "$tasks_dir" || rc=$((rc + 1))
+inhibit_sleep run-parts --exit-on-error "$tasks_dir" || rc=$((rc + 1))
 if [ -d "$user_tasks_dir" ]; then
-	run-parts --exit-on-error "$user_tasks_dir" || rc=$((rc + 1))
+	inhibit_sleep run-parts --exit-on-error "$user_tasks_dir" || rc=$((rc + 1))
 fi
 
 exit "$rc"

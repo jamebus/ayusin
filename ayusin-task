@@ -11,6 +11,17 @@ AYUSIN_USER_DIR="$user_dir"
 AYUSIN_ME="${0##*/}"
 export AYUSIN AYUSIN_USER_DIR AYUSIN_ME
 
+inhibit_sleep_exec() {
+	test -n "${1:-}"           || exit 1
+	command -v "$1" >/dev/null || exit 1
+
+	if command -v caffeinate >/dev/null; then
+		exec caffeinate -i "$@"
+	else
+		exec "$@"
+	fi
+}
+
 if [ -z "${1:-}" ]; then
 	echo "❗️ Please specify the task to run" 1>&2
 	exit 1
@@ -18,17 +29,17 @@ fi
 
 if [ -x "$1" ]; then
 	echo "🎬 $1"
-	exec "$@"
+	inhibit_sleep_exec "$@"
 elif [ -x "${user_tasks_dir}/$1" ]; then
 	cmd="$1"
 	shift
 	echo "🎬 $cmd"
-	exec "${user_tasks_dir}/$cmd" "$@"
+	inhibit_sleep_exec "${user_tasks_dir}/$cmd" "$@"
 elif [ -x "${tasks_dir}/$1" ]; then
 	cmd="$1"
 	shift
 	echo "🎬 $cmd"
-	exec "${tasks_dir}/$cmd" "$@"
+	inhibit_sleep_exec "${tasks_dir}/$cmd" "$@"
 fi
 
 echo "❗️ Task not found" 1>&2
