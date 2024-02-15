@@ -23,7 +23,7 @@ inhibit_sleep_exec() {
 }
 
 if [ -z "${1:-}" ]; then
-	echo "❗️ Please specify the task to run" 1>&2
+	echo '❗️ Please specify the task to run' 1>&2
 	exit 1
 fi
 
@@ -42,5 +42,5 @@ elif [ -x "${tasks_dir}/$1" ]; then
 	inhibit_sleep_exec "${tasks_dir}/$cmd" "$@"
 fi
 
-echo "❗️ Task not found" 1>&2
+echo '❗️ Task not found' 1>&2
 exit 1
