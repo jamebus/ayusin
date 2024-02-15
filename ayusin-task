@@ -27,19 +27,12 @@ if [ -z "${1:-}" ]; then
 	exit 1
 fi
 
-if [ -x "$1" ]; then
-	echo "🎬 $1"
-	inhibit_sleep_exec "$@"
-elif [ -x "${user_tasks_dir}/$1" ]; then
-	cmd="$1"
-	shift
-	echo "🎬 $cmd"
-	inhibit_sleep_exec "${user_tasks_dir}/$cmd" "$@"
-elif [ -x "${tasks_dir}/$1" ]; then
-	cmd="$1"
-	shift
-	echo "🎬 $cmd"
-	inhibit_sleep_exec "${tasks_dir}/$cmd" "$@"
+cmd=$(PATH=".:${user_tasks_dir}:${tasks_dir}"; command -v "$1" || true)
+shift
+
+if [ -n "$cmd" ]; then
+	echo "🎬 Running: $cmd"
+	inhibit_sleep_exec "$cmd" "$@"
 fi
 
 echo '❗️ Task not found' 1>&2
