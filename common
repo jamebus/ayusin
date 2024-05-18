@@ -48,6 +48,7 @@ task_lastrun_days() {
 
 	tmpfile=$(mktemp)
 	touch -t "$(date -v "-${1}d" '+%Y%m%d%H%M')" "$tmpfile"
+	# shellcheck disable=SC3013
 	test "$tmpfile" -nt "$task_lastrun_file" || rc=1
 	rm -f "$tmpfile"
 
