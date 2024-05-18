@@ -10,23 +10,25 @@ test "${AYUSIN_DRYRUN:-0}"  -eq 1 && DRYRUN='echo ⚪️'
 
 lastrun_dir="${AYUSIN_USER_DIR}/lastrun"
 task_lastrun_file="${lastrun_dir}/$(echo "$0" | tr -cd '[:alnum:]').stamp"
+style_bold=$(tput bold)
+style_normal=$(tput sgr0)
 
 task_start() {
-	echo "🟡 Starting: $task_description"
+	echo "🟡 ${style_bold}Starting: ${task_description}${style_normal}"
 }
 
 task_skip() {
-	echo "🟠 Skipping: $task_description"
+	echo "🟠 ${style_bold}Skipping: ${task_description}${style_normal}"
 	exit 0
 }
 
 task_end() {
-	echo "🟢 Completed: $task_description"
+	echo "🟢 ${style_bold}Completed: ${task_description}${style_normal}"
 	exit 0
 }
 
 task_fail() {
-	echo "🔴 Failure: $task_description"
+	echo "🔴 ${style_bold}Failure: ${task_description}${style_normal}"
 	exit "${1:-0}"
 }
 
