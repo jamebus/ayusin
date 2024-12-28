@@ -2,7 +2,7 @@
 
 set -eu
 
-version='4.0.0'
+version='4.0.1'
 me="${0##*/}"
 tasks_dir="${0%/*}/../share/ayusin/tasks.d"
 user_dir="${HOME}/.ayusin"
