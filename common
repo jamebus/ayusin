@@ -10,8 +10,8 @@ test "${AYUSIN_DRYRUN:-0}"  -eq 1 && DRYRUN='echo ⚪️'
 
 lastrun_dir="${AYUSIN_USER_DIR}/lastrun"
 task_lastrun_file="${lastrun_dir}/$(echo "$0" | tr -cd '[:alnum:]').stamp"
-style_bold=$(tput bold)
-style_normal=$(tput sgr0)
+style_bold=$(tput bold || true)
+style_normal=$(tput sgr0 || true)
 
 task_start() {
 	echo "🟡 ${style_bold}Starting: ${task_description}${style_normal}"
