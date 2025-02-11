@@ -1,0 +1,16 @@
+#!/bin/sh
+
+# shellcheck source=../common
+. "${0%/*}/../common"
+task_description='Microsoft applications update check'
+
+task_start
+
+msupdate='/Library/Application Support/Microsoft/MAU2.0/Microsoft AutoUpdate.app/Contents/MacOS/msupdate'
+
+test -x "$msupdate"        || task_skip
+$DRYRUN "$msupdate" --list || rc=$?
+# shellcheck disable=SC2119 disable=SC2086
+test ${rc:-0} -gt 1 && task_fail
+
+task_end
