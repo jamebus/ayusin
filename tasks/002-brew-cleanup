@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# shellcheck source=../common
+. "${0%/*}/../common"
+task_description='Clean up Homebrew caches, logs, and environment'
+
+task_start
+task_lastrun_days 30                       || task_skip
+test -n "${HOMEBREW_NO_INSTALL_CLEANUP:-}" && task_skip
+
+# shellcheck disable=SC2119
+$DRYRUN brew cleanup || task_fail
+
+task_update_lastrun
+task_end
