@@ -10,6 +10,7 @@ msupdate='/Library/Application Support/Microsoft/MAU2.0/Microsoft AutoUpdate.app
 
 test -x "$msupdate"        || task_skip
 $DRYRUN "$msupdate" --list || rc=$?
+echo
 # shellcheck disable=SC2119 disable=SC2086
 test ${rc:-0} -gt 1 && task_fail
 
